@@ -145,9 +145,10 @@ def main():
 
     # --- Training run ---
     with mlflow.start_run() as run:
-        # Source tags for clickable Databricks UI link
-        mlflow.set_tag("mlflow.source.name", config.REPOS_TRAIN_PATH)
-        mlflow.set_tag("mlflow.source.type", "NOTEBOOK")
+        # Source tags — link to exact code version on GitHub
+        github_source_url = f"{config.GITHUB_REPO_URL.replace('.git', '')}/blob/{commit_hash}/train.py" if commit_hash else config.GITHUB_REPO_URL
+        mlflow.set_tag("mlflow.source.name", github_source_url)
+        mlflow.set_tag("mlflow.source.type", "OTHER")
         mlflow.set_tag("mlflow.source.git.repoURL", config.GITHUB_REPO_URL)
         mlflow.set_tag("mlflow.source.git.commit", commit_hash)
         mlflow.set_tag("mlflow.databricks.gitRepoUrl", config.GITHUB_REPO_URL)
